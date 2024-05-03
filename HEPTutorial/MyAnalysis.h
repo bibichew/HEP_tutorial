@@ -31,7 +31,7 @@ class MyAnalysis: public TSelector {
 public:
    TTree *fChain; //!pointer to the analyzed TTree or TChain
    
-   // Declaration of leaf types
+//Declaration of all variables contained in the ROOT tree
    Int_t NJet;
    Float_t Jet_Px[10]; //[NJet]
    Float_t Jet_Py[10]; //[NJet]
@@ -39,6 +39,7 @@ public:
    Float_t Jet_E[10]; //[NJet]
    Float_t Jet_btag[10]; //[NJet]
    Float_t Jet_ID[10]; //[NJet]
+
    Int_t NMuon;
    Float_t Muon_Px[5]; //[NMuon]
    Float_t Muon_Py[5]; //[NMuon]
@@ -46,6 +47,7 @@ public:
    Float_t Muon_E[5]; //[NMuon]
    Int_t Muon_Charge[5]; //[NMuon]
    Float_t Muon_Iso[5]; //[NMuon]
+
    Int_t NElectron;
    Float_t Electron_Px[5]; //[NElectron]
    Float_t Electron_Py[5]; //[NElectron]
@@ -53,36 +55,46 @@ public:
    Float_t Electron_E[5]; //[NElectron]
    Int_t Electron_Charge[5]; //[NElectron]
    Float_t Electron_Iso[5]; //[NElectron]
+
    Int_t NPhoton;
    Float_t Photon_Px[5]; //[NPhoton]
    Float_t Photon_Py[5]; //[NPhoton]
    Float_t Photon_Pz[5]; //[NPhoton]
    Float_t Photon_E[5]; //[NPhoton]
    Float_t Photon_Iso[5]; //[NPhoton]
+
    Float_t MET_px;
    Float_t MET_py;
+
    Float_t MChadronicBottom_px;
    Float_t MChadronicBottom_py;
    Float_t MChadronicBottom_pz;
+
    Float_t MCleptonicBottom_px;
    Float_t MCleptonicBottom_py;
    Float_t MCleptonicBottom_pz;
+
    Float_t MChadronicWDecayQuark_px;
    Float_t MChadronicWDecayQuark_py;
    Float_t MChadronicWDecayQuark_pz;
    Float_t MChadronicWDecayQuarkBar_px;
    Float_t MChadronicWDecayQuarkBar_py;
    Float_t MChadronicWDecayQuarkBar_pz;
+
    Float_t MClepton_px;
    Float_t MClepton_py;
    Float_t MClepton_pz;
+
    Int_t MCleptonPDGid;
    Float_t MCneutrino_px;
    Float_t MCneutrino_py;
    Float_t MCneutrino_pz;
+
+//The constructor takes a global scaling factor (default 1.0)
+//multiplied to the individual event weights
    Int_t NPrimaryVertices;
    Bool_t triggerIsoMu24;
-   Float_t EventWeight;
+   Float_t EventWeight;     //eventweight!
    
    // List of branches
    TBranch *b_NJet; //!
@@ -139,7 +151,7 @@ public:
    
    MyAnalysis(float sf = 1., float wf = 1, TTree * /*tree*/= 0) :
    fChain(0) {
-      weight_factor = wf;
+      weight_factor = wf;     //weight factor = 1.0
       SF_b = sf;
    }
    virtual ~MyAnalysis() {
@@ -173,6 +185,9 @@ public:
    void BuildEvent();
    
    int TotalEvents;
+
+//Declaration of the containers of type vector
+//Helper classes representing jets or muons
    vector<MyJet> Jets;
    vector<MyMuon> Muons;
    vector<MyElectron> Electrons;
@@ -195,6 +210,7 @@ public:
 #endif
 
 #ifdef MyAnalysis_cxx
+//Makes the connection between the ROOT tree and the variables which are kept in memory
 void MyAnalysis::Init(TTree *tree)
 {
    // The Init() function is called when the selector needs to initialize
