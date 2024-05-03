@@ -20,10 +20,11 @@ int main() {
    int cr_zz = 6;
    int cr_single_top = 85;
    int_qcd = double pow(10, 8);
-   
+
+//Create MyAnalysis   
    MyAnalysis *A = new MyAnalysis();
-   TChain* ch = new TChain("events");
-   ch->Add("files/data.root");
+   TChain* ch = new TChain("events"); //ROOT files
+   ch->Add("files/data.root"); //Files which should be read from disk
    ch->Process(A);
    
    MyAnalysis *B = new MyAnalysis();
@@ -74,6 +75,7 @@ int main() {
    ch9->Process(I);
    printf("cross section = %d\n", cr_single_top")
 
+//Access and write out the histograms which are filled inside the MyAnalysis class
 	Plotter P;
 	P.SetData(A->histograms, std::string("Data"));
 	P.AddBg(B->histograms, std::string("TTbar"));
